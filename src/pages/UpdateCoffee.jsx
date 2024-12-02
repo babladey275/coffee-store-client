@@ -1,7 +1,12 @@
+import { useLoaderData } from "react-router-dom";
 import Swal from "sweetalert2";
 
-const AddCoffee = () => {
-  const handleAddCoffee = (event) => {
+const UpdateCoffee = () => {
+  const coffee = useLoaderData();
+  const { _id, name, chef, supplier, taste, category, details, photo, price } =
+    coffee;
+
+  const handleUpdateCoffee = (event) => {
     event.preventDefault();
     const form = event.target;
     const name = form.name.value;
@@ -12,7 +17,7 @@ const AddCoffee = () => {
     const details = form.details.value;
     const photo = form.photo.value;
     const price = form.price.value;
-    const newCoffee = {
+    const updatedCoffee = {
       name,
       chef,
       supplier,
@@ -22,23 +27,23 @@ const AddCoffee = () => {
       photo,
       price,
     };
-    console.log(newCoffee);
+    console.log(updatedCoffee);
 
     //send data to the server
-    fetch("http://localhost:5000/coffee", {
-      method: "POST",
+    fetch(`http://localhost:5000/coffee/${_id}`, {
+      method: "PUT",
       headers: {
         "content-type": "application/json",
       },
-      body: JSON.stringify(newCoffee),
+      body: JSON.stringify(updatedCoffee),
     })
       .then((res) => res.json())
       .then((data) => {
         console.log(data);
-        if (data.insertedId) {
+        if (data.modifiedCount > 0) {
           Swal.fire({
             title: "Success!",
-            text: "Coffee added successfully!",
+            text: "Coffee updated successfully!",
             icon: "success",
             confirmButtonText: "Ok",
           });
@@ -58,14 +63,14 @@ const AddCoffee = () => {
       </div>
       <div className="bg-[#F4F3F0] shadow-lg rounded-lg py-6 md:py-12 md:px-16 px-4 w-full">
         <h2 className="md:text-4xl text-2xl font-bold text-center mb-4">
-          Add New Coffee
+          Update Existing Coffee Details
         </h2>
         <p className="text-center text-gray-600 md:mb-6 mb-4">
-          Brew perfection with every cup! Add your favorite coffee details and
-          let the world savor the story behind its rich aroma and delightful
-          taste.
+          Give your coffee a fresh new look! Update the name, chef, taste, and
+          other details to make it stand out. Make sure every detail reflects
+          the essence of your coffee masterpiece!
         </p>
-        <form onSubmit={handleAddCoffee} className="grid grid-cols-2 gap-4">
+        <form onSubmit={handleUpdateCoffee} className="grid grid-cols-2 gap-4">
           <div className="form-control col-span-2 md:col-span-1">
             <label className="label">
               <span className="label-text text-xl font-semibold">Name</span>
@@ -73,6 +78,7 @@ const AddCoffee = () => {
             <input
               type="text"
               name="name"
+              defaultValue={name}
               placeholder="Enter coffee name"
               className="input input-bordered"
             />
@@ -84,6 +90,7 @@ const AddCoffee = () => {
             <input
               type="text"
               name="chef"
+              defaultValue={chef}
               placeholder="Enter coffee chef"
               className="input input-bordered"
             />
@@ -95,6 +102,7 @@ const AddCoffee = () => {
             <input
               type="text"
               name="supplier"
+              defaultValue={supplier}
               placeholder="Enter coffee supplier"
               className="input input-bordered"
             />
@@ -106,6 +114,7 @@ const AddCoffee = () => {
             <input
               type="text"
               name="taste"
+              defaultValue={taste}
               placeholder="Enter coffee taste"
               className="input input-bordered"
             />
@@ -117,6 +126,7 @@ const AddCoffee = () => {
             <input
               type="text"
               name="category"
+              defaultValue={category}
               placeholder="Enter coffee category"
               className="input input-bordered"
             />
@@ -128,6 +138,7 @@ const AddCoffee = () => {
             <input
               type="text"
               name="details"
+              defaultValue={details}
               placeholder="Enter coffee details"
               className="input input-bordered"
             />
@@ -139,6 +150,7 @@ const AddCoffee = () => {
             <input
               type="text"
               name="photo"
+              defaultValue={photo}
               placeholder="Enter photo URL"
               className="input input-bordered"
             />
@@ -150,13 +162,14 @@ const AddCoffee = () => {
             <input
               type="number"
               name="price"
+              defaultValue={price}
               placeholder="Enter coffee price"
               className="input input-bordered"
             />
           </div>
           <div className="form-control col-span-2">
             <button className="bg-[#D2B48C] hover:bg-[#bfa07a] text-black font-semibold py-2 px-4 rounded w-full mt-4 shadow-md border-2 border-[#331a15]">
-              Add Coffee
+              Update Coffee Details
             </button>
           </div>
         </form>
@@ -165,4 +178,4 @@ const AddCoffee = () => {
   );
 };
 
-export default AddCoffee;
+export default UpdateCoffee;

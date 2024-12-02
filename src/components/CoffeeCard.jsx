@@ -1,5 +1,6 @@
 /* eslint-disable react/prop-types */
 import { FaEdit, FaEye, FaTrash } from "react-icons/fa";
+import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
 
 const CoffeeCard = ({ coffee, onDelete }) => {
@@ -65,9 +66,11 @@ const CoffeeCard = ({ coffee, onDelete }) => {
         <button className="flex items-center justify-center w-8 h-8 bg-[#D2B48C] rounded-md hover:bg-[#c4b49f]">
           <FaEye className="text-gray-700" />
         </button>
-        <button className="flex items-center justify-center w-8 h-8 bg-black rounded-md hover:bg-gray-800">
-          <FaEdit className="text-white" />
-        </button>
+        <Link to={`/updateCoffee/${coffee._id}`}>
+          <button className="flex items-center justify-center w-8 h-8 bg-black rounded-md hover:bg-gray-800">
+            <FaEdit className="text-white" />
+          </button>
+        </Link>
         <button
           onClick={() => handleDelete(coffee._id)}
           className="flex items-center justify-center w-8 h-8 bg-red-500 rounded-md hover:bg-red-600"
